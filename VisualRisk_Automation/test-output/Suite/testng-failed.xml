@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test thread-count="5" name="New Form Upload(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="testCase.EndToEndValidation_NewFormUpload_Test">
+        <methods>
+          <include name="beforeTest"/>
+          <include name="beforeMethod"/>
+          <include name="afterMethod"/>
+          <include name="setUp"/>
+          <include name="afterSuite"/>
+          <include name="endToEndValidation_NewFormUpload_Test"/>
+          <include name="endTest"/>
+        </methods>
+      </class> <!-- testCase.EndToEndValidation_NewFormUpload_Test -->
+    </classes>
+  </test> <!-- New Form Upload(failed) -->
+  <test thread-count="5" name="Existing Form(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="testCase.EndToEndValidation_ExistingForm_Test">
+        <methods>
+          <include name="beforeTest"/>
+          <include name="endToEndValidation_ExistingForm_Test"/>
+          <include name="beforeMethod"/>
+          <include name="afterMethod"/>
+          <include name="setUp"/>
+          <include name="afterSuite"/>
+          <include name="endTest"/>
+        </methods>
+      </class> <!-- testCase.EndToEndValidation_ExistingForm_Test -->
+    </classes>
+  </test> <!-- Existing Form(failed) -->
+</suite> <!-- Failed suite [Suite] -->

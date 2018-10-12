@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="VisualRiskAutomation-Suite" parallel="false">
+
+	<!-- <parameter name="testCase" value="EndToEndValidation_NewFormUpload_Test" 
+		/> -->
+	<listeners>
+		<listener class-name="library.AnnotationTransformer" />
+	</listeners>
+
+	<test name="Existing Form">
+		<parameter name="isNegative" value="false" />
+		<parameter name="browser" value="chrome" />
+		<parameter name="testName" value="VerifyVisualRiskDashBorad_Test" />
+		<classes>
+			<class name="testCase.VerifyVisualRiskDashBorad_Test" />
+		</classes>
+	</test> <!-- Test -->
+
+
+
+
+</suite> <!-- Suite -->
+
+<!-- -->

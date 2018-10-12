@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="VisualRiskAutomation-Suite" duration-ms="29119" started-at="2018-10-11T11:48:34Z" finished-at="2018-10-11T11:49:03Z">
+    <groups>
+    </groups>
+    <test name="Existing Form" duration-ms="29119" started-at="2018-10-11T11:48:34Z" finished-at="2018-10-11T11:49:03Z">
+      <class name="testCase.VerifyVisualRiskDashBorad_Test">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:testCase.VerifyVisualRiskDashBorad_Test@462d5aee]" name="beforeSuite" is-config="true" duration-ms="438" started-at="2018-10-11T11:48:33Z" finished-at="2018-10-11T11:48:34Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="setUp(java.lang.String, java.lang.String, boolean)[pri:0, instance:testCase.VerifyVisualRiskDashBorad_Test@462d5aee]" name="setUp" is-config="true" duration-ms="23680" started-at="2018-10-11T11:48:34Z" finished-at="2018-10-11T11:48:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[chrome]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[VerifyVisualRiskDashBorad_Test]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="verifyVisualRiskDashBorad_Test()[pri:0, instance:testCase.VerifyVisualRiskDashBorad_Test@462d5aee]" name="verifyVisualRiskDashBorad_Test" duration-ms="3162" started-at="2018-10-11T11:48:58Z" finished-at="2018-10-11T11:49:01Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyVisualRiskDashBorad_Test -->
+        <test-method status="PASS" signature="afterMethod(org.testng.ITestResult)[pri:0, instance:testCase.VerifyVisualRiskDashBorad_Test@462d5aee]" name="afterMethod" is-config="true" duration-ms="1723" started-at="2018-10-11T11:49:01Z" finished-at="2018-10-11T11:49:03Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=verifyVisualRiskDashBorad_Test status=SUCCESS method=VerifyVisualRiskDashBorad_Test.verifyVisualRiskDashBorad_Test()[pri:0, instance:testCase.VerifyVisualRiskDashBorad_Test@462d5aee] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="afterSuite()[pri:0, instance:testCase.VerifyVisualRiskDashBorad_Test@462d5aee]" name="afterSuite" is-config="true" duration-ms="134" started-at="2018-10-11T11:49:03Z" finished-at="2018-10-11T11:49:03Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterSuite -->
+      </class> <!-- testCase.VerifyVisualRiskDashBorad_Test -->
+    </test> <!-- Existing Form -->
+  </suite> <!-- VisualRiskAutomation-Suite -->
+</testng-results>

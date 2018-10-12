@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [AisualRisk-Suite]" parallel="tests">
+  <test thread-count="5" name="Existing Form(failed)" parallel="tests">
+    <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="testCase.EndToEndValidation_ExistingForm_Test">
+        <methods>
+          <include name="endToEndValidation_ExistingForm_Test"/>
+          <include name="beforeMethod"/>
+          <include name="setUp"/>
+          <include name="afterMethod"/>
+          <include name="afterSuite"/>
+          <include name="endTest"/>
+        </methods>
+      </class> <!-- testCase.EndToEndValidation_ExistingForm_Test -->
+    </classes>
+  </test> <!-- Existing Form(failed) -->
+  <test thread-count="5" name="New Form Upload(failed)" parallel="tests">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="testCase.EndToEndValidation_NewFormUpload_Test">
+        <methods>
+          <include name="beforeMethod"/>
+          <include name="setUp"/>
+          <include name="afterMethod"/>
+          <include name="afterSuite"/>
+          <include name="endToEndValidation_NewFormUpload_Test"/>
+          <include name="endTest"/>
+        </methods>
+      </class> <!-- testCase.EndToEndValidation_NewFormUpload_Test -->
+    </classes>
+  </test> <!-- New Form Upload(failed) -->
+</suite> <!-- Failed suite [AisualRisk-Suite] -->

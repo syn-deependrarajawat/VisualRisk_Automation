@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [VisualRiskAutomation-Suite]">
+  <listeners>
+    <listener class-name="library.AnnotationTransformer"/>
+  </listeners>
+  <test thread-count="5" name="Existing Form(failed)">
+    <parameter name="isNegative" value="false"/>
+    <parameter name="browser" value="chrome"/>
+    <parameter name="testName" value="VerifyVisualRiskDashBorad_Test"/>
+    <classes>
+      <class name="testCase.VerifyVisualRiskDashBorad_Test">
+        <methods>
+          <include name="verifyVisualRiskDashBorad_Test"/>
+          <include name="beforeSuite"/>
+          <include name="setUp"/>
+          <include name="afterMethod"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- testCase.VerifyVisualRiskDashBorad_Test -->
+    </classes>
+  </test> <!-- Existing Form(failed) -->
+</suite> <!-- Failed suite [VisualRiskAutomation-Suite] -->
