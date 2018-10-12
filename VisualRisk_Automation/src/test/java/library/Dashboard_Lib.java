@@ -19,7 +19,7 @@ public class Dashboard_Lib extends BaseTest{
 		boolean bflag = false;
 		String sceenshotPath ="";
 		try {
-			driver = commonLib.getDriver("");
+			driver = CommonLib.getDriver("");
 			List<WebElement> tiles = driver.findElements(By.xpath("//div[contains(@class,'taBoardTile tile')]//a//div//span"));
 
 			switch (fieldType.toLowerCase()) {
