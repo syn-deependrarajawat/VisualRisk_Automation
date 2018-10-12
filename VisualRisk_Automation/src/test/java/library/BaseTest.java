@@ -1,3 +1,7 @@
+/*
+ *Base test is the class file which is  
+ * 
+ */
 package library;
 
 import java.io.File;
@@ -51,7 +55,7 @@ public class BaseTest {
 		SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy-hh_mm_ss");
 
 		//Setup for Extent reporting
-		htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + "\\src\\test\\java\\com\\synechron\\htmlReport\\HTMLReport-" + formater.format(calendar.getTime()) + ".html");
+		htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + "\\src\\test\\java\\htmlReport\\HTMLReport-" + formater.format(calendar.getTime()) + ".html");
 		extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
 
