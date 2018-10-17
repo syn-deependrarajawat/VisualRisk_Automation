@@ -7,6 +7,8 @@
 
 package testCase;
 
+import java.io.File;
+
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -19,9 +21,12 @@ public class Verify_QuoteCreationFlow_Test extends BaseTest{
 	@Test
 	public void verify_QuoteCreationFlow_Test() throws Exception {
 
-			commonLib.clickOnSubmissionsNoLink(2);
-			commonLib.verifyAndSaveApplicationForm();
-			commonLib.createQuote("1000");
-			commonLib.logOut();
+		File filePath = new File(System.getProperty("user.dir")+ "\\src\\test\\java\\resourses\\FileUpload_BareBurger.exe");
+		commonLib.waitUntilUnmask(30);
+		commonLib.uploadFile(filePath.toString());
+		commonLib.verifyAndSaveApplicationForm();
+		commonLib.waitUntilUnmask(120);
+		commonLib.createQuote("1000");
+		commonLib.logOut();
 	}
 }

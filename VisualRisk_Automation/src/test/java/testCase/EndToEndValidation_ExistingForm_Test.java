@@ -27,12 +27,13 @@ public class EndToEndValidation_ExistingForm_Test extends BaseTest {
 		commonLib.waitUntilUnmask(120);
 		commonLib.clickOnSubmissionsNoLink(2);
 		commonLib.waitUntilUnmask(120);
-		commonLib.clickOnSaveButton();
+//		commonLib.clickOnSaveButton();
 		commonLib.waitUntilUnmask(120);
 		commonLib.waitUntilWidgetUnmask(3);
-		commonLib.getNoOfWidgetsOnThePage();
+		commonLib.clickOnTopMenu("Insights");
+		commonLib.getNoOfWidgetsOnThePage( "Insights");
 		commonLib.clickOnTopMenu("Location");
-		commonLib.getNoOfWidgetsOnThePage();
+		commonLib.getNoOfWidgetsOnThePage("Location");
 		commonLib.clickOnTopMenu("Insights");
 		commonLib.clickOnWidget("BAREBURGER.COM");
 		commonLib.closeWidget();

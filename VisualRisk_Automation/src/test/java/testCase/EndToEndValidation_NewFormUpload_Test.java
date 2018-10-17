@@ -31,8 +31,15 @@ public class EndToEndValidation_NewFormUpload_Test extends BaseTest {
 			commonLib.uploadFile(filePath.toString());
 			commonLib.verifyAndSaveApplicationForm();
 			commonLib.waitUntilUnmask(120);
-			commonLib.getNoOfWidgetsOnThePage();
+			commonLib.getNoOfWidgetsOnThePage( "Insights");
 			commonLib.clickOnTopMenu( "Location");
+			commonLib.getNoOfWidgetsOnThePage( "Location");
+			commonLib.clickOnTopMenu( "EXPERIAN");
+			commonLib.getNoOfWidgetsOnThePage( "EXPERIAN");
+			commonLib.clickOnTopMenu( "Perils");
+			commonLib.getNoOfWidgetsOnThePage( "Perils");
+			commonLib.clickOnTopMenu( "Properties");
+			commonLib.getNoOfWidgetsOnThePage( "Properties");
 			commonLib.clickOnTopMenu( "Insights");
 			commonLib.clickOnWidget("BAREBURGER.COM");
 			commonLib.closeWidget();

@@ -6,6 +6,8 @@
  */
 package testCase;
 
+import java.io.File;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -21,20 +23,17 @@ public class VerifyFieldsOnInsightsWidget_Test extends BaseTest {
 	@Test
 	public static void verifyFieldsOnInsightsWidget_Test() throws Exception {
 
-		commonLib.waitUntilUnmask(60);
-		commonLib.clickOnSubmissionsNoLink(2);
-		commonLib.waitUntilUnmask(120);
-		commonLib.clickOnSaveButton();
+		File filePath = new File(System.getProperty("user.dir")+ "\\src\\test\\java\\resourses\\FileUpload_BareBurger.exe");
+		commonLib.waitUntilUnmask(30);
+		commonLib.uploadFile(filePath.toString());
+		commonLib.verifyAndSaveApplicationForm();
 		commonLib.waitUntilUnmask(120);
 		commonLib.waitUntilWidgetUnmask(3);
 		commonLib.clickOnTopMenu("Insights");
-		commonLib.getNoOfWidgetsOnThePage();
-//		commonLib.verifyFieldsOnInsightsWidget
-//		commonLib.clickOnWidget("BAREBURGER.COM");
+		commonLib.getNoOfWidgetsOnThePage("Insights");
+		commonLib.clickOnWidget("BAREBURGER.COM");
 		commonLib.closeWidget();
 		commonLib.logOut();
-
-
-}
+	}
 
 }
