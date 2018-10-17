@@ -14,6 +14,7 @@ public class Common_App_Objects_OR extends BaseTest {
 
 	public static final By byMaskImage = By.xpath("//div[contains(@class,'greyOverlay overLeyFullPage')]");
 	public static final By byWidgetHeaders = By.xpath("html/body/div[1]/div/div[4]/div/div/div[2]/div/div//h2");
+	public static final By byWidgets = By.xpath("html/body/div[1]/div/div[4]/div/div/div[2]/div/div");
 
 	public static final By byTopMenus = By.xpath("//div[@class='container']//ul[@class='topMenu']//li");
 	public static final By byTableRows = By.xpath("html//table/tbody/tr");
@@ -26,8 +27,8 @@ public class Common_App_Objects_OR extends BaseTest {
 	public static final By byCreateQuote = By.xpath("//a[contains(text(),'CREATE QUOTE')]");
 	public static final By bySimilarQuote = By.xpath("//a[@class='active' and contains(text(),'Similar Quotes')]");
 	public static final By bySuccessMessage = By.xpath("//p[contains(text(),'Quote has been sent successfully to')]");
-	public static final By byWidgetMaskImage = By.xpath("//div[@class='greyOverlay boxOverlay']//div[@class='gif']");
-	// public static final By byBrowseFileButton = ;
+	public static final By byWidgetMaskImage = By.xpath("//div[@class='greyOverlay boxOverlay']//div[@class='gif']/..");
+	 public static final By byVisualRiskLogo = By.xpath("//img[@alt='logo']");
 	// public static final By byBrowseFileButton = ;
 	// public static final By byBrowseFileButton = ;
 	// public static final By byBrowseFileButton = ;

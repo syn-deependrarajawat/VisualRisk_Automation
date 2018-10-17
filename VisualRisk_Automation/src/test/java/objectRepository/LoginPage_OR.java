@@ -7,7 +7,9 @@ public class LoginPage_OR {
 	public static final By byUserName = By.id("userid");
 	public static final By byPassword = By.id("loginpsd");
 	public static final By byLoginButton = By.xpath("//input[@value='Sign In']");
-	public static final By byWelcomeText = By.xpath("//span[@class='welText']");
+	public static final By byWelcomeText = By.xpath("//*[contains(text(),'Welcome')]"); 
+	
+	
 	
 
 }
