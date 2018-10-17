@@ -29,6 +29,8 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.gargoylesoftware.htmlunit.util.StringUtils;
+
 import objectRepository.Common_App_Objects_OR;
 import objectRepository.HomePage_OR;
 import objectRepository.LoginPage_OR;
@@ -77,7 +79,7 @@ public class CommonLib extends BaseTest {
 				}
 			} 
 			else {
-				driver.manage().timeouts().pageLoadTimeout(7, TimeUnit.SECONDS);
+				waitUntilWidgetUnmask(2);
 				WebDriverWait wait = new WebDriverWait(driver, 120);
 				wait.until(ExpectedConditions.elementToBeClickable(By.className("startBtn")));
 				element = driver.findElement(LoginPage_OR.byWelcomeText);
@@ -90,9 +92,11 @@ public class CommonLib extends BaseTest {
 				//extent.flush();
 			}
 		} catch (Exception e) {
+			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+			//			Assert.assertTrue(false, "Unable to login");
 			extentlogger.fail(
 					Thread.currentThread().getStackTrace()[1].getMethodName()
-					+ " method is failed, Exception occured",
+					+ " method is failed, Exception occured"+e,
 					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 			e.printStackTrace();
 		}
@@ -187,19 +191,91 @@ public class CommonLib extends BaseTest {
 	}
 
 
-	public void getNoOfWidgetsOnThePage() {
-
+	public void getNoOfWidgetsOnThePage(String pageName) {
+		List<WebElement>widgets = new ArrayList<WebElement>();
+		int count = 0;
 		try {
-			List<WebElement> widgestHeaders = driver.findElements(Common_App_Objects_OR.byWidgetHeaders);
-			for (WebElement widgetHeader : widgestHeaders) {
-				logger.info("Widget Header is: " + widgetHeader.getText());
+
+			switch(pageName.toUpperCase()){
+			case"INSIGHTS":
+				List<WebElement> widgestHeaders = driver.findElements(Common_App_Objects_OR.byWidgets);
+				for (WebElement widgetHeader : widgestHeaders) {
+					logger.info("Widget Header is: " + widgetHeader.getText());
+				}
+				logger.info("Total widgets on "+pageName+" page are: " + widgestHeaders.size());
+				screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+				extentlogger.info(
+						Thread.currentThread().getStackTrace()[1].getMethodName()
+						+ " method is passed, Total widgets on the page are: " + widgestHeaders.size(),
+						MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+				widgets.clear();
+				break;
+
+
+			case"LOCATION":
+				String xpath = "html/body/div[1]/div/div[4]/div/div/div/div";
+				List<WebElement>widgetPanels =  driver.findElements(By.xpath(xpath));
+				for(WebElement widgetPanel :widgetPanels  )
+				{
+					widgets = driver.findElements(By.xpath(xpath+"/div/div//h2"));
+					for(WebElement widget :widgets  )
+					{
+						if(!widget.getText().isEmpty()) {
+							logger.info("Widget header is: "+widget.getText());
+							count++;
+						}
+						else {
+							logger.info("Widget header is: "+driver.findElement(By.xpath(xpath+"/div/div//h4")).getText());
+						}
+					}
+					break;
+				}
+				logger.info("Total widgets on "+pageName+" page: "+ count);
+				widgets.clear();
+				break;
+
+			case"PERILS":
+				widgets =  driver.findElements(By.xpath("//div[@class='container']/div/div/div//h2"));
+				for(WebElement widget :widgets  )
+				{
+					if(!widget.getText().isEmpty()) {
+						logger.info("Widget header is: "+widget.getText());
+						count++;
+					}
+				}
+				logger.info("Total widgets on "+pageName+" page: "+ count);
+				widgets.clear();
+				break;
+
+			case"SIMILAR QUOTES":
+				break;
+
+			case"EXPERIAN":
+				widgets =  driver.findElements(By.xpath("//div[@class='insightOverviewChartWrap']/div/div/div//h2"));
+				for(WebElement widget :widgets  )
+				{
+					if(!widget.getText().isEmpty()) {
+						logger.info("Widget header is: "+widget.getText());
+						count++;
+					}
+				}
+				logger.info("Total widgets on "+pageName+" page: "+ count);
+				widgets.clear();
+				break;
+			case"PROPERTIES":
+				widgets =  driver.findElements(By.xpath("html/body/div[1]/div/div[4]/div/div/div/div"));
+				for(WebElement widget :widgets  )
+				{
+					if(!widget.getText().isEmpty()) {
+						logger.info("Widget header is: "+widget.getText());
+						count++;
+					}
+				}
+				logger.info("Total widgets on "+pageName+" page: "+ count);
+				widgets.clear();
+				break;
+
 			}
-			logger.info("Total widgets on the page are: " + widgestHeaders.size());
-			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
-			extentlogger.info(
-					Thread.currentThread().getStackTrace()[1].getMethodName()
-					+ " method is passed, Total widgets on the page are: " + widgestHeaders.size(),
-					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -256,40 +332,45 @@ public class CommonLib extends BaseTest {
 			Thread.sleep(1000);
 			try {
 				if (driver.findElement(Common_App_Objects_OR.byErrorMessage).isDisplayed()) {
+					jse = (JavascriptExecutor) driver;
+					jse.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(Common_App_Objects_OR.byErrorMessage));
+					screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
 					extentlogger.info(Thread.currentThread().getStackTrace()[1].getMethodName()
 							+ "Error displayed while saving Application form " + "Error message: "
 							+ driver.findElement(Common_App_Objects_OR.byErrorMessage).getText() + " is displayed",
 							MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
-					logger.info("Error message: "
-							+ driver.findElement(Common_App_Objects_OR.byErrorMessage).getText() + " is displayed");
+					logger.info("Error message: "+ driver.findElement(Common_App_Objects_OR.byErrorMessage).getText() + " is displayed");
 					driver.findElement(Common_App_Objects_OR.byErrorMessage).click();
 					enterDataInBizApplication();
 					saveButtons = driver.findElements(Common_App_Objects_OR.bySaveButton);
 					saveButtons.get(1).click();
 					waitUntilUnmask(120);
 				}
-				waitUntilUnmask(120);
-				Assert.assertEquals(driver.findElement(Common_App_Objects_OR.byInsighTopMenu).isDisplayed(), true,
-						"Application form not saved successfully");
-				screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
-				extentlogger.pass(
-						Thread.currentThread().getStackTrace()[1].getMethodName()
-						+ " method is passed:- Application form saved successfully",
-						MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+				
 			} catch (Exception e) {
+				System.out.println();
 			}
+				waitUntilUnmask(120);
+				Assert.assertEquals(driver.findElement(Common_App_Objects_OR.byInsighTopMenu).isDisplayed(), true,"Application form not saved successfully");
+				jse = (JavascriptExecutor) driver;
+				jse.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(Common_App_Objects_OR. byVisualRiskLogo));
+			
+				screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+				extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()+ " method is passed:- Application form saved successfully",
+						MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void enterDataInBizApplication() {
+		String sField ="";
 		try {
 			List<WebElement> textBoxes = driver.findElements(Common_App_Objects_OR.byInvalidFields);
 			for (WebElement textBox : textBoxes) {
 				String isInvalid = textBox.getAttribute("aria-invalid");
 				if (Boolean.parseBoolean(isInvalid) == true) {
-					String sField = driver.findElement(By.xpath("//div[contains(@class,'quoteRightWrap')]//*[ @aria-invalid='true']/../label")).getText();
+					sField = driver.findElement(By.xpath("//div[contains(@class,'quoteRightWrap')]//*[ @aria-invalid='true']/../label")).getText();
 					logger.info("Entering data into :" + sField + " field as its missing in form");
 					if (sField.equalsIgnoreCase("State") || sField.equalsIgnoreCase("Country")) {
 						WebElement field = driver.findElement(By.xpath("//select[@id='App" + sField + "']"));
@@ -303,7 +384,7 @@ public class CommonLib extends BaseTest {
 				}
 			}
 			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
-			extentlogger.info("Entered missing data in Application form",MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+			extentlogger.info("Entered missing data in to "+sField+" in Application form",MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -323,10 +404,12 @@ public class CommonLib extends BaseTest {
 					menu.click();
 					bFlag = true;
 					waitUntilUnmask(10);
+					waitUntilWidgetUnmask(3);
 					Assert.assertEquals(bFlag, true, "Could not click on: " + menuName);
 
-					jse.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//img[@alt='logo']")));
+					jse.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(Common_App_Objects_OR. byVisualRiskLogo));
 					screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+					logger.info("Clicked on "+ menuName + " menu successfully");
 					extentlogger.info(Thread.currentThread().getStackTrace()[1].getMethodName()
 							+ " method is passed:- Clicked on "+ menuName + " menu successfully",
 							MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
@@ -404,29 +487,53 @@ public class CommonLib extends BaseTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			extentlogger.fail(Thread.currentThread().getStackTrace()[1].getMethodName()
-					+ "Unable to close widget",
+					+ " Unable to close widget",
 					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 		}
 	}
 
+	/**
+	 * @Methodname :- clickOnSubmissionsNoLink
+	 * @param rowNum
+	 * @throws IOException
+	 * @Description :- This method clicks on the particular submission link available on the submissions grid 
+	 * @Author :- Deependra Rajawat
+	 * @Creation_Date:- 1-Oct-18
+	 * @Modified_By :-
+	 * @Modification_date :-
+	 */
 	public void clickOnSubmissionsNoLink(int rowNum) throws IOException {
 		try {
 			driver.findElement(By.xpath("//*[contains(text(),'Submissions')]/../following-sibling::div//table/tbody/tr[" + rowNum + "]//a")).click();
 			waitUntilUnmask(120);
-			Assert.assertEquals(driver.findElement(HomePage_OR.byApplicationNum).isDisplayed(), true,
-					"Could not click on submission link row no:" + rowNum);
+			try {
+				Assert.assertEquals(driver.findElement(HomePage_OR.byApplicationNum).isDisplayed(), true,"Could not click on submission link row no:" + rowNum);
+			}
+			catch(Exception e) {
+				Assert.assertEquals(driver.findElement(By.xpath("//a[text()='INSIGHTS']")).isDisplayed(), true,"Could not click on submission link row no:" + rowNum);
+			}
 			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
 			extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()+ "method is passed:- Clicked on the submission no link successfully",MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			extentlogger.fail(
-					Thread.currentThread().getStackTrace()[1].getMethodName()
-					+ "Unable to clicke on the submission no link successfully",
+			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+			extentlogger.fail(Thread.currentThread().getStackTrace()[1].getMethodName()
+					+ " Unable to clicke on the submission no link, exception occured "+"\n"+e,
 					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 		}
 	}
 
+	/**
+	 * @Methodname :- fetchDataFromTableColumn
+	 * @param rowNum
+	 * @throws IOException
+	 * @Description :- This method is used to fetch the data from grid column grid 
+	 * @Author :- Deependra Rajawat
+	 * @Creation_Date:- 1-Oct-18
+	 * @Modified_By :-
+	 * @Modification_date :-
+	 */
 	public String fetchDataFromTableColumn() {
 		try {
 			Thread.sleep(4000);
@@ -450,9 +557,6 @@ public class CommonLib extends BaseTest {
 	public String fetchDataFromWidget(String WidgetHeader, String field) {
 		try {
 			Thread.sleep(4000);
-			// (//div[contains(@class,'ratingBlock
-			// ')]//span[contains(text(),'Overall
-			// rating')]/preceding-sibling::span)
 			List<WebElement> widgets = driver.findElements(Common_App_Objects_OR.byWidgetHeaders);
 			driver.findElements(Common_App_Objects_OR.byColumns);
 			for (WebElement widget : widgets) {
@@ -565,6 +669,8 @@ public class CommonLib extends BaseTest {
 			wait.until(ExpectedConditions.visibilityOf(element));
 
 			Common_App_Objects_OR.clickOnButton("Send");
+			//			waitUntilUnmask(50);
+			wait.until(ExpectedConditions.visibilityOf(driver.findElement(Common_App_Objects_OR.bySuccessMessage)));
 			Assert.assertTrue(driver.findElement(Common_App_Objects_OR.bySuccessMessage).isDisplayed(), "Quote not send successfully");
 			user = driver.findElement(Common_App_Objects_OR.bySuccessMessage).getText();
 			String []array = user.split(" ");

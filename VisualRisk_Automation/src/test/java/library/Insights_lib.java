@@ -56,10 +56,8 @@ public class Insights_lib extends BaseTest{
 					try {
 
 					} catch (Exception e) {
-						// TODO: handle exception
 					}
 				} catch (Exception e) {
-					// TODO: handle exception
 				}
 
 
@@ -75,5 +73,9 @@ public class Insights_lib extends BaseTest{
 			e.printStackTrace();
 			extentlogger.log(Status.PASS, e, MediaEntityBuilder.createScreenCaptureFromPath(sceenshotPath).build());
 		}
+	}
+	
+	public static void verifyInsightWidgetsData(){
+		
 	}
 }
