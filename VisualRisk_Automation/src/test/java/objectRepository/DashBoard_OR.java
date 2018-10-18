@@ -11,5 +11,5 @@ import org.openqa.selenium.By;
  */
 public class DashBoard_OR {
 
-	public static final By bySubmissionGridRows = By.xpath("//*[contains(text(),'Submissions')]/../following-sibling::div//table/tbody/tr[]//a");
+	public static final By bySubmissionGridRows = By.xpath("//*[contains(text(),'Submissions')]/../following-sibling::div//table/tbody//tr//a");
 }
