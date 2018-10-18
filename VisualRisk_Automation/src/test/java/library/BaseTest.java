@@ -6,6 +6,7 @@ package library;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
@@ -71,7 +72,7 @@ public class BaseTest {
 	@BeforeMethod
 	public static WebDriver setUp(String browser, String testName, boolean isNegative) {
 		try {
-			
+
 			extentlogger = extent.createTest(testName, testName+"- description");
 			extentlogger.info("Reporting started");
 			getDriver(browser);
@@ -80,7 +81,7 @@ public class BaseTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			extentlogger.info("Exception occured in "+Thread.currentThread().getStackTrace()[1].getMethodName()+" method");
-			
+
 		}
 		return driver;
 	}
@@ -118,7 +119,15 @@ public class BaseTest {
 		extent= null;
 	}
 
-
+	/** @Methodname :- getDriver
+	 * @param browser
+	 * @throws 
+	 * @Description :- This method is used to launch a browser and returns the webdriver driver object
+	 * @Author :- Deependra Rajawat
+	 * @Creation_Date:- 25-Sep-18
+	 * @Modified_By :-
+	 * @Modification_date :-
+	 */
 	public static WebDriver getDriver(String browser) {
 		try {
 			File file = new File("environment.properties");
@@ -130,14 +139,17 @@ public class BaseTest {
 				if (browser.equalsIgnoreCase("chrome")) {
 					System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\test\\java\\resourses\\chromedriver.exe");
 					driver = new ChromeDriver();
+					extentlogger.info("Launched chrome browser");
 				}
 				if (browser.equalsIgnoreCase("firefox")) {
 					System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\test\\java\\resourses\\geckodriver.exe");
 					driver = new FirefoxDriver();
+					extentlogger.info("Launched firefox browser");
 				}
 				if (browser.equalsIgnoreCase("ie")) {
 					System.setProperty("webdriver.ie.driver", System.getProperty("user.dir")+"\\src\\test\\java\\resourses\\IEDriverServer.exe");
 					driver = new InternetExplorerDriver();
+					extentlogger.info("Launched IE browser");
 				}
 				driver.get(url);
 				driver.manage().window().maximize();
@@ -151,11 +163,12 @@ public class BaseTest {
 		return driver;
 
 	}
-			public static void initialize() {
-				commonLib = new CommonLib();
-				dashboard_Lib = new Dashboard_Lib();
-				loginPage = new LoginPage_OR();
 	
-		}
+	public static void initialize() {
+		commonLib = new CommonLib();
+		dashboard_Lib = new Dashboard_Lib();
+		loginPage = new LoginPage_OR();
+
+	}
 
 }
