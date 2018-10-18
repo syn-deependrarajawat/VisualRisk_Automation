@@ -1,5 +1,7 @@
 package library;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,6 +34,7 @@ import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.gargoylesoftware.htmlunit.util.StringUtils;
 
 import objectRepository.Common_App_Objects_OR;
+import objectRepository.DashBoard_OR;
 import objectRepository.HomePage_OR;
 import objectRepository.LoginPage_OR;
 
@@ -85,11 +88,11 @@ public class CommonLib extends BaseTest {
 				element = driver.findElement(LoginPage_OR.byWelcomeText);
 				Assert.assertTrue(element.isDisplayed(), "Unable to login");
 				screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+				logger.info("Logged in successfully");
 				extentlogger.pass(
 						Thread.currentThread().getStackTrace()[1].getMethodName()
 						+ " method is passed:- Logged in successfully",
 						MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath,screenShotPath1).build());
-				//extent.flush();
 			}
 		} catch (Exception e) {
 			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -186,7 +189,7 @@ public class CommonLib extends BaseTest {
 			logger.info( "All widgets un-masked successfully");
 			extentlogger.info( "All widgets un-masked successfully");
 		} catch (Exception e) {
-			e.printStackTrace();
+			//			e.printStackTrace();
 		}
 	}
 
@@ -284,6 +287,7 @@ public class CommonLib extends BaseTest {
 	}
 
 	public String uploadFile(String filePath) throws Exception {
+		String appNo = "";
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, 120);
 			wait.until(ExpectedConditions.elementToBeClickable(HomePage_OR.byStartButton));
@@ -301,7 +305,7 @@ public class CommonLib extends BaseTest {
 			element = driver.findElement(Common_App_Objects_OR.bySaveButton);
 			wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((Common_App_Objects_OR.bySaveButton)));
 			wait.until(ExpectedConditions.elementToBeClickable(Common_App_Objects_OR.bySaveButton));
-			String appNo = driver.findElement(HomePage_OR.byApplicationNum).getText();
+			appNo = driver.findElement(HomePage_OR.byApplicationNum).getText();
 			driver.findElement(HomePage_OR.byApplicationNum).getAttribute("Value");
 			Assert.assertNotNull(appNo, "Form not uploaded successfully and unable to fetch Application no");
 			logger.info(appNo);
@@ -321,7 +325,7 @@ public class CommonLib extends BaseTest {
 					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 
 		}
-		return filePath;
+		return appNo;
 	}
 
 	public void verifyAndSaveApplicationForm() {
@@ -346,18 +350,18 @@ public class CommonLib extends BaseTest {
 					saveButtons.get(1).click();
 					waitUntilUnmask(120);
 				}
-				
+
 			} catch (Exception e) {
 				System.out.println();
 			}
-				waitUntilUnmask(120);
-				Assert.assertEquals(driver.findElement(Common_App_Objects_OR.byInsighTopMenu).isDisplayed(), true,"Application form not saved successfully");
-				jse = (JavascriptExecutor) driver;
-				jse.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(Common_App_Objects_OR. byVisualRiskLogo));
-			
-				screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
-				extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()+ " method is passed:- Application form saved successfully",
-						MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+			waitUntilUnmask(120);
+			Assert.assertEquals(driver.findElement(Common_App_Objects_OR.byInsighTopMenu).isDisplayed(), true,"Application form not saved successfully");
+			jse = (JavascriptExecutor) driver;
+			jse.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(Common_App_Objects_OR. byVisualRiskLogo));
+
+			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+			extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()+ " method is passed:- Application form saved successfully",
+					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -421,6 +425,22 @@ public class CommonLib extends BaseTest {
 			e.printStackTrace();
 			extentlogger.fail(MarkupHelper.createLabel("In "+Thread.currentThread().getStackTrace()[1].getMethodName()+" method Exception occured"+"\n"+e.getMessage(), ExtentColor.RED));
 		}
+	}
+
+
+	public String getCurrentTab() {
+		boolean bFlag = false;
+		String tabName ="";
+		try {
+			WebElement menuList = driver.findElement(By.xpath("//div[@class='container']//ul[@class='topMenu']//li//a[@class='active']"));
+			tabName =  menuList.getText();
+			logger.info("Fetched current tab Name: "+tabName);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			extentlogger.fail(MarkupHelper.createLabel("In "+Thread.currentThread().getStackTrace()[1].getMethodName()+" method Exception occured"+"\n"+e.getMessage(), ExtentColor.RED));
+		}
+		return tabName;
 	}
 
 	public void clickOnWidget(String headrName) throws IOException {
@@ -524,6 +544,86 @@ public class CommonLib extends BaseTest {
 		}
 	}
 
+	/** @Methodname :- clickOnSubmissionsNoLink
+	 * @param SubmissionNum
+	 * @throws IOException
+	 * @Description :- This method clicks on the particular submission link available on the submissions grid 
+	 * @Author :- Deependra Rajawat
+	 * @Creation_Date:- 18-Oct-18
+	 * @Modified_By :-
+	 * @Modification_date :-
+	 */
+	public void clickOnSubmissionsNoLink(String SubmissionNum) throws IOException {
+		String AppNo = "";
+		try {
+			List<WebElement> rows = driver.findElements(DashBoard_OR.bySubmissionGridRows);
+			for(WebElement row: rows) {
+				AppNo = row.getText();
+				if(AppNo.equalsIgnoreCase(SubmissionNum)) {
+					row.click();
+					waitUntilUnmask(60);
+					logger.info("Clicked on "+SubmissionNum+" submission number link");
+					screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+					extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()
+							+ " Clicked on the Submission No. link: "+SubmissionNum,
+							MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+					break;
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			screenShotPath = takeScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
+			extentlogger.fail(Thread.currentThread().getStackTrace()[1].getMethodName()
+					+ " Unable to clicke on the submission no link, exception occured "+"\n"+e,
+					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+		}
+	}
+
+	/** @Methodname :- clickOnSubmissionsNoLink
+	 * @param SubmissionNum
+	 * @throws IOException
+	 * @Description :- This method clicks on the particular submission link available on the submissions grid 
+	 * @Author :- Deependra Rajawat
+	 * @Creation_Date:- 18-Oct-18
+	 * @Modified_By :-
+	 * @Modification_date :-
+	 */
+	public void compareValues(String value1, String value2, boolean isEqual) throws IOException {
+		String AppNo = "";
+		boolean bFlag= false;
+		try {
+			if(isEqual) {
+				if(value1.equalsIgnoreCase(value2)){
+					logger.info(value1+" is equal to "+value2);
+					bFlag = true;
+				}
+				else {
+					logger.info(value1+" is not equal to "+value2);}
+
+				assertEquals(bFlag, true,value1+" is not equal to "+value2);
+				extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()+ ": method is passed "+value1+" is equal to "+value2);
+			}
+			else {
+				if(!value1.equalsIgnoreCase(value2)){
+					logger.info(value1+" is not equal to "+value2);
+					bFlag = true;
+				}
+				else {
+					logger.info(value1+" is equal to "+value2);}
+
+				assertEquals(bFlag, true,value1+" is equal to "+value2);
+				extentlogger.pass(Thread.currentThread().getStackTrace()[1].getMethodName()+ ": method is passed "+value1+" is not equal to "+value2+", its a negative comparision");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			extentlogger.fail(Thread.currentThread().getStackTrace()[1].getMethodName()
+					+ " Unable to compare"+value1+ "and" +value2+ " exception occured "+"\n"+e,
+					MediaEntityBuilder.createScreenCaptureFromPath(screenShotPath).build());
+		}
+	}
 	/**
 	 * @Methodname :- fetchDataFromTableColumn
 	 * @param rowNum
